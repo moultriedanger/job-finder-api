@@ -1,5 +1,7 @@
 package com.moultriedanger.mljobfinder;
 
+import com.moultriedanger.mljobfinder.company.Company;
+import com.moultriedanger.mljobfinder.company.CompanyRepository;
 import com.moultriedanger.mljobfinder.job.Job;
 import com.moultriedanger.mljobfinder.job.JobRepository;
 import org.slf4j.Logger;
@@ -17,23 +19,42 @@ public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
     @Bean
-    CommandLineRunner initJobs(JobRepository repository) {
+    CommandLineRunner initJobs(JobRepository jobRepository, CompanyRepository companyRepository) {
         return args -> {
             try (CSVReader reader = new CSVReader(new FileReader("/Users/moultriedangerfield/Desktop/mljobfinder/src/main/resources/data/1000_ml_jobs_us.csv"))) {
                 String[] row;
-                reader.readNext(); // Skip header row
+                reader.readNext();
+                
                 while ((row = reader.readNext()) != null) {
-                    String title = row[9];   // example index for "title"
-                    String level = row[8];   // example index for "level"
 
+                    //Job Parse logic
+                    String title = row[8];
+                    String level = row[9];
+                    String description = row[7];
 
-                    String description = row[7];// example index for job description
-
+                   //messy logic- eventually change to handle nulll descriptions
                     if (description.length() >= 10){
                         description = row[7].substring(0,9);
                     }
 
-                    repository.save(new Job(title, description, level));
+                    jobRepository.save(new Job(title, description, level));
+
+                    //Company parse logic
+                    //need to check if company exists in the company repository
+
+                    if (!(companyRepository.existsByCompanyName(row[4]))){
+
+                        String companyName = row[4];
+                        String companyWebsite = row[5];
+                        String companyDescription = row[6];
+
+                        if (companyDescription.length() >= 10){
+                            companyDescription = row[6].substring(0,9);
+                        }
+
+                        companyRepository.save(new Company(companyName, companyDescription, companyWebsite));
+                    }
+                    System.out.println("Company count: " + companyRepository.findAll().size());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
