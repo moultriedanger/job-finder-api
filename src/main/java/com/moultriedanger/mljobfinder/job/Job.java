@@ -18,8 +18,8 @@ public class Job {
 
     public String seniorityLevel;
 
-//    @ManyToOne
-//    private Company company;
+    @ManyToOne
+    private Company company;
 
     public Job(){}
 
@@ -51,6 +51,10 @@ public class Job {
 
     public void setJobDescription(String jobDescription) {
         this.jobDescription = jobDescription;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
 }

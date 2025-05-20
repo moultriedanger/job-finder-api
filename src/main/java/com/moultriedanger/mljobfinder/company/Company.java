@@ -1,8 +1,10 @@
 package com.moultriedanger.mljobfinder.company;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.moultriedanger.mljobfinder.job.Job;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Company {
@@ -13,6 +15,9 @@ public class Company {
     private String companyName;
     private String companyDescription;
     private String companyWebsite;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Job> jobs = new ArrayList<>();
 
     public Company(){}
 
@@ -49,5 +54,15 @@ public class Company {
     @Override
     public String toString(){
         return "Name: " + companyName + " Description: " + companyDescription + " Website: " + companyWebsite;
+    }
+
+    //add job
+    public void addJob(Job job){
+        this.jobs.add(job);
+        job.setCompany(this);
+    }
+
+    public List<Job> getJobs(){
+        return jobs;
     }
 }

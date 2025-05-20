@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Optional;
+
 import com.opencsv.CSVReader;
 
 
@@ -37,22 +39,31 @@ public class LoadDatabase {
                         description = row[7].substring(0,9);
                     }
 
-                    jobRepository.save(new Job(title, description, level));
+                    Job job = new Job(title, description, level);
 
                     //Company parse logic
                     //need to check if company exists in the company repository
+                    String companyName = row[4];
+                    String companyWebsite = row[5];
 
-                    if (!(companyRepository.existsByCompanyName(row[4]))){
+                    String companyDescription = row[6];
+                    if (companyDescription.length() >= 10){
+                        companyDescription = row[6].substring(0,9);
+                    }
 
-                        String companyName = row[4];
-                        String companyWebsite = row[5];
-                        String companyDescription = row[6];
+                    Optional<Company> company = companyRepository.findByCompanyName(companyName);
 
-                        if (companyDescription.length() >= 10){
-                            companyDescription = row[6].substring(0,9);
-                        }
+                    if (company.isPresent()) {
+                        Company c = company.get();
+                        c.addJob(job);
+                        companyRepository.save(c);
+                    }
 
-                        companyRepository.save(new Company(companyName, companyDescription, companyWebsite));
+                    else{
+                        Company newCompany = new Company(companyName, companyDescription, companyWebsite);
+                        newCompany.addJob(job);
+
+                        companyRepository.save(newCompany);
                     }
                     System.out.println("Company count: " + companyRepository.findAll().size());
                 }
