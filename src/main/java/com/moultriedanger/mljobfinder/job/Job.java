@@ -12,19 +12,12 @@ public class Job {
     private @Id
     @GeneratedValue Long id;
 
-    public String jobTitle;
-
-    public String jobDescription;
-
-    public String seniorityLevel;
-
-    public String maxSalary;
-
-//    public String payPeriod;
-
-    public String location;
-
-    public String postingUrl;
+    private String jobTitle;
+    private String jobDescription;
+    private String seniorityLevel;
+    private String maxSalary;
+    private String location;
+    private String postingUrl;
 
     @ManyToOne
     private Company company;
