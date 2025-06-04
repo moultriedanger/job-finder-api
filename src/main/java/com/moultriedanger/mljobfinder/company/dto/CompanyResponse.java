@@ -1,4 +1,4 @@
-package com.moultriedanger.mljobfinder.company;
+package com.moultriedanger.mljobfinder.company.dto;
 
 public class CompanyResponse {
 

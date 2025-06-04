@@ -1,5 +1,6 @@
 package com.moultriedanger.mljobfinder.company;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.moultriedanger.mljobfinder.job.Job;
 import jakarta.persistence.*;
 
@@ -19,6 +20,7 @@ public class Company {
 
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+//    @JsonIgnore
     private List<Job> jobs = new ArrayList<>();
 
     public Company(){}

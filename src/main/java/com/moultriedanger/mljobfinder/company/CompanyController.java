@@ -1,8 +1,8 @@
 package com.moultriedanger.mljobfinder.company;
 
+import com.moultriedanger.mljobfinder.company.dto.CompanyResponse;
 import com.moultriedanger.mljobfinder.job.Job;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class CompanyController {
@@ -64,7 +63,9 @@ public class CompanyController {
     @GetMapping("companies/{id}/jobs")
     public List<Job> getJobsByCompanyId(@PathVariable Long id){
 
-        Company c = companyRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+        Company c = companyRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Company not found with id: " + id));
 
         if (c.getJobs() == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no jobs associated with company id: " + id);
