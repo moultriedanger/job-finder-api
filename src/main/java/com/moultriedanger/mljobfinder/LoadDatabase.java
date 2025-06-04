@@ -52,8 +52,8 @@ public class LoadDatabase {
 
                     //company parse logic
                     String companyName = row[8];
-                    String companyWebsite = row[10];
-                    String countryLocated = row[11];
+                    String countryLocated = row[10];
+                    String companyWebsite = row[11];
 
                     String companyDescription = row[6];
                     if (companyDescription.length() >= 10){

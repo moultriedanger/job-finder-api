@@ -1,30 +1,87 @@
 package com.moultriedanger.mljobfinder.job;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.moultriedanger.mljobfinder.company.Company;
+import com.moultriedanger.mljobfinder.company.CompanyController;
+import com.moultriedanger.mljobfinder.company.CompanyRepository;
+import com.moultriedanger.mljobfinder.job.dto.JobRequest;
+import com.moultriedanger.mljobfinder.job.dto.JobResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
 public class JobController {
 
-    private JobRepository repository;
+    private JobRepository jobRepository;
+    private CompanyRepository companyRepository;
 
-    JobController(JobRepository repository) {
-        this.repository = repository;
+    JobController(JobRepository jobRepository, CompanyRepository companyRepository) {
+
+        this.jobRepository = jobRepository;
+        this.companyRepository = companyRepository;
     }
 
     @GetMapping("/jobs")
-    List<Job> all() {
-        return repository.findAll();
+    List<JobResponse> all() {
+
+        List<Job> jRepo = jobRepository.findAll();
+
+        List<JobResponse> jobs = new ArrayList<>();
+
+        for (Job j: jRepo) {
+
+            JobResponse jobDTO = new JobResponse();
+            jobDTO.setJobTitle(j.getJobTitle());
+            jobDTO.setJobDescription(j.getJobDescription());
+            jobDTO.setSeniorityLevel(j.getSeniorityLevel());
+            jobDTO.setMaxSalary(j.getMaxSalary());
+            jobDTO.setLocation(j.getLocation());
+            jobDTO.setPostingUrl(j.getPostingUrl());
+
+            jobs.add(jobDTO);
+        }
+
+        return jobs;
     }
 
     @GetMapping("/jobs/{id}")
-    Job getJobById(@PathVariable Long id){
+    JobResponse getJobById(@PathVariable Long id){
 
-        return repository.findById(id)
+        Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
+
+        JobResponse jobDTO = new JobResponse();
+        jobDTO.setJobTitle(job.getJobTitle());
+        jobDTO.setJobDescription(job.getJobDescription());
+        jobDTO.setSeniorityLevel(job.getSeniorityLevel());
+        jobDTO.setMaxSalary(job.getMaxSalary());
+        jobDTO.setLocation(job.getLocation());
+        jobDTO.setPostingUrl(job.getPostingUrl());
+
+        return jobDTO;
     }
+
+    @PostMapping("/jobs")
+    public ResponseEntity<Job> addJob(@Valid @RequestBody JobRequest jobDTO){
+
+        Company company = companyRepository.findById(jobDTO.getCompanyId())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + jobDTO.getCompanyId()));
+
+        Job job = new Job();
+        job.setJobTitle(jobDTO.getJobTitle());
+        job.setJobDescription(jobDTO.getJobDescription());
+        job.setSeniorityLevel(jobDTO.getSeniorityLevel());
+        job.setMaxSalary(jobDTO.getMaxSalary());
+        job.setLocation(jobDTO.getLocation());
+        job.setPostingUrl(jobDTO.getPostingUrl());
+        job.setCompany(company);
+
+        jobRepository.save(job);
+        return new ResponseEntity<>(job, HttpStatus.CREATED);
+    }
+
 }

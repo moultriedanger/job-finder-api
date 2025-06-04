@@ -1,10 +1,7 @@
 package com.moultriedanger.mljobfinder.job;
 
 import com.moultriedanger.mljobfinder.company.Company;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Job {
@@ -19,7 +16,8 @@ public class Job {
     private String location;
     private String postingUrl;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
     public Job(){}
@@ -50,13 +48,13 @@ public class Job {
         return maxSalary;
     }
 
-    public String getLocation() {
-        return location;
-    }
+    public String getLocation() { return location; }
 
     public String getPostingUrl() {
         return postingUrl;
     }
+
+    public Company getCompany() { return company; }
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
