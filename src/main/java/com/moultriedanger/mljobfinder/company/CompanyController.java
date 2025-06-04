@@ -22,9 +22,30 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
-    public List<Company> listAllCompanies(){
+    public List<CompanyResponse> listAllCompanies(){
 
-        return companyRepository.findAll();
+        List<Company> companiesAndJobs = companyRepository.findAll();
+
+        List<CompanyResponse> companies = new ArrayList<>();
+
+        for (Company c: companiesAndJobs){
+            companies.add(new CompanyResponse(
+                    c.getCompanyName(),
+                    c.getCompanyDescription(),
+                    c.getCountryLocated(),
+                    c.getCompanyWebsite()
+            ));
+        }
+
+        return companies;
+    }
+
+    @GetMapping("/companies/{id}")
+    public CompanyResponse getCompanyById(@PathVariable Long id){
+
+        Company c = companyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        return new CompanyResponse(c.getCompanyName(), c.getCompanyDescription(), c.getCountryLocated(), c.getCompanyWebsite());
     }
 
     @GetMapping("/company-jobs")
@@ -38,14 +59,5 @@ public class CompanyController {
         }
 
         return jobs;
-
-    }
-
-    @GetMapping("/companies/{id}")
-    public CompanyResponse getCompanyById(@PathVariable Long id){
-
-        Company c = companyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
-
-        return new CompanyResponse(c.getCompanyName(), c.getCompanyDescription(), c.getCountryLocated(), c.getCompanyWebsite());
     }
 }
