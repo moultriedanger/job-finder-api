@@ -60,4 +60,15 @@ public class CompanyController {
 
         return jobs;
     }
+
+    @GetMapping("companies/{id}/jobs")
+    public List<Job> getJobsByCompanyId(@PathVariable Long id){
+
+        Company c = companyRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        if (c.getJobs() == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no jobs associated with company id: " + id);
+
+        return c.getJobs();
+    }
 }
