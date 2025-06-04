@@ -42,7 +42,10 @@ public class CompanyController {
     }
 
     @GetMapping("/companies/{id}")
-    public Company getCompanyById(@PathVariable Long id){
-        return companyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+    public CompanyResponse getCompanyById(@PathVariable Long id){
+
+        Company c = companyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        return new CompanyResponse(c.getCompanyName(), c.getCompanyDescription(), c.getCountryLocated(), c.getCompanyWebsite());
     }
 }
