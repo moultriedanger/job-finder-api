@@ -12,5 +12,4 @@ public class MljobfinderApplication {
 		SpringApplication.run(MljobfinderApplication.class, args);
 
 	}
-
 }
