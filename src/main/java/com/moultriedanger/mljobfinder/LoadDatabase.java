@@ -21,7 +21,7 @@ public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
     @Bean
-    CommandLineRunner initJobs(JobRepository jobRepository) {
+    CommandLineRunner initJobs(JobRepository jobRepository, CompanyRepository companyRepository) {
         return args -> {
             try (CSVReader reader = new CSVReader(new FileReader("/Users/moultriedangerfield/Desktop/mljobfinder/src/main/resources/data/jobs_and_companies.csv"))) {
                 String[] row;
@@ -43,33 +43,32 @@ public class LoadDatabase {
                     }
 
                     Job job = new Job(title, description, seniorityLevel, maxSalary, location, postingUrl);
-                    jobRepository.save(job);
-//
-//                    //Company parse logic
-//                    //need to check if company exists in the company repository
-//                    String companyName = row[4];
-//                    String companyWebsite = row[5];
-//
-//                    String companyDescription = row[6];
-//                    if (companyDescription.length() >= 10){
-//                        companyDescription = row[6].substring(0,9);
-//                    }
-//
-//                    Optional<Company> company = companyRepository.findByCompanyName(companyName);
-//
-//                    if (company.isPresent()) {
-//                        Company c = company.get();
-//                        c.addJob(job);
-//                        companyRepository.save(c);
-//                    }
-//
-//                    else{
-//                        Company newCompany = new Company(companyName, companyDescription, companyWebsite);
-//                        newCompany.addJob(job);
-//
-//                        companyRepository.save(newCompany);
-//                    }
-//                    System.out.println("Company count: " + companyRepository.findAll().size());
+
+                    //company parse logic
+                    String companyName = row[8];
+                    String companyWebsite = row[10];
+                    String countryLocated = row[11];
+
+                    String companyDescription = row[6];
+                    if (companyDescription.length() >= 10){
+                        companyDescription = companyDescription.substring(0,9);
+                    }
+
+                    Optional<Company> company = companyRepository.findByCompanyName(companyName);
+
+                    if (company.isPresent()) {
+                        Company c = company.get();
+                        c.addJob(job);
+                        companyRepository.save(c);
+                    }
+
+                    else{
+                        Company newCompany = new Company(companyName, companyDescription, companyWebsite, countryLocated);
+                        newCompany.addJob(job);
+
+                        companyRepository.save(newCompany);
+                    }
+                    System.out.println("Company count: " + companyRepository.findAll().size());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

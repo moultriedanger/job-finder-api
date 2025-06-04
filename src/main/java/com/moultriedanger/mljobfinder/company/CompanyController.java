@@ -35,7 +35,6 @@ public class CompanyController {
 
         return jobs;
 
-//        return companyRepository.findAll();
     }
 
 }

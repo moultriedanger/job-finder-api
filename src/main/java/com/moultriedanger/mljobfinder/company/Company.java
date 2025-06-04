@@ -14,17 +14,20 @@ public class Company {
 
     private String companyName;
     private String companyDescription;
+    private String countryLocated;
     private String companyWebsite;
+
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Job> jobs = new ArrayList<>();
 
     public Company(){}
 
-    public Company(String companyName, String companyDescription, String companyWebsite){
+    public Company(String companyName, String companyDescription, String companyWebsite, String countryLocated){
         this.companyName = companyName;
         this.companyDescription = companyDescription;
         this.companyWebsite = companyWebsite;
+        this.countryLocated = countryLocated;
     }
 
     public String getCompanyName() {
@@ -39,6 +42,8 @@ public class Company {
         return companyWebsite;
     }
 
+    public String getCountryLocated() { return countryLocated; }
+
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
@@ -51,9 +56,11 @@ public class Company {
         this.companyWebsite = companyWebsite;
     }
 
+    public void setCountryLocated(String countryLocated) { this.countryLocated = countryLocated; }
+
     @Override
     public String toString(){
-        return "Name: " + companyName + " Description: " + companyDescription + " Website: " + companyWebsite;
+        return "Name: " + companyName + " Description: " + companyDescription + " Website: " + companyWebsite + " Located: " + countryLocated;
     }
 
     //add job
