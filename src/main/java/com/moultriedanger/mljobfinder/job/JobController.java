@@ -27,5 +27,4 @@ public class JobController {
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
     }
-
 }

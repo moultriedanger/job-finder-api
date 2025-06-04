@@ -21,51 +21,55 @@ public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
     @Bean
-    CommandLineRunner initJobs(JobRepository jobRepository, CompanyRepository companyRepository) {
+    CommandLineRunner initJobs(JobRepository jobRepository) {
         return args -> {
-            try (CSVReader reader = new CSVReader(new FileReader("/Users/moultriedangerfield/Desktop/mljobfinder/src/main/resources/data/1000_ml_jobs_us.csv"))) {
+            try (CSVReader reader = new CSVReader(new FileReader("/Users/moultriedangerfield/Desktop/mljobfinder/src/main/resources/data/jobs_and_companies.csv"))) {
                 String[] row;
                 reader.readNext();
                 
                 while ((row = reader.readNext()) != null) {
 
-                    //Job Parse logic
-                    String title = row[8];
-                    String level = row[9];
-                    String description = row[7];
+                    String title = row[0];
+                    String description = row[1];
+                    String maxSalary = row[2];
+                    String payPeriod = row[3];
+                    String location = row[4];
+                    String seniorityLevel = row[5];
+                    String postingUrl = row[6];
 
-                   //messy logic- eventually change to handle nulll descriptions
-                    if (description.length() >= 10){
-                        description = row[7].substring(0,9);
+//                  messy logic- eventually change to handle nulll descriptions
+                    if (description.length() >= 10) {
+                        description = description.substring(0, 9);
                     }
 
-                    Job job = new Job(title, description, level);
-
-                    //Company parse logic
-                    //need to check if company exists in the company repository
-                    String companyName = row[4];
-                    String companyWebsite = row[5];
-
-                    String companyDescription = row[6];
-                    if (companyDescription.length() >= 10){
-                        companyDescription = row[6].substring(0,9);
-                    }
-
-                    Optional<Company> company = companyRepository.findByCompanyName(companyName);
-
-                    if (company.isPresent()) {
-                        Company c = company.get();
-                        c.addJob(job);
-                        companyRepository.save(c);
-                    }
-
-                    else{
-                        Company newCompany = new Company(companyName, companyDescription, companyWebsite);
-                        newCompany.addJob(job);
-
-                        companyRepository.save(newCompany);
-                    }
-                    System.out.println("Company count: " + companyRepository.findAll().size());
+                    Job job = new Job(title, description, seniorityLevel, maxSalary, location, postingUrl);
+                    jobRepository.save(job);
+//
+//                    //Company parse logic
+//                    //need to check if company exists in the company repository
+//                    String companyName = row[4];
+//                    String companyWebsite = row[5];
+//
+//                    String companyDescription = row[6];
+//                    if (companyDescription.length() >= 10){
+//                        companyDescription = row[6].substring(0,9);
+//                    }
+//
+//                    Optional<Company> company = companyRepository.findByCompanyName(companyName);
+//
+//                    if (company.isPresent()) {
+//                        Company c = company.get();
+//                        c.addJob(job);
+//                        companyRepository.save(c);
+//                    }
+//
+//                    else{
+//                        Company newCompany = new Company(companyName, companyDescription, companyWebsite);
+//                        newCompany.addJob(job);
+//
+//                        companyRepository.save(newCompany);
+//                    }
+//                    System.out.println("Company count: " + companyRepository.findAll().size());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -73,9 +77,3 @@ public class LoadDatabase {
         };
     }
 }
-
-//repository.findAll();        // Like getting all values from a list
-//repository.findById(id);     // Like a map lookup by key
-//repository.save(obj);        // Like inserting into a list or map
-//repository.delete(obj);      // Like removing from a list
-//repository.existsById(id);   // Like map.containsKey
