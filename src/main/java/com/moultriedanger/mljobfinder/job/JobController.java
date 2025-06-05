@@ -9,6 +9,7 @@ import com.moultriedanger.mljobfinder.job.dto.JobRequest;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,7 +27,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs")
-    List<JobResponse> all() {
+    public List<JobResponse> all() {
 
         List<Job> jRepo = jobRepository.findAll();
 
@@ -49,7 +50,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs/{id}")
-    JobResponse getJobById(@PathVariable Long id){
+    public JobResponse getJobById(@PathVariable Long id){
 
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
@@ -84,4 +85,37 @@ public class JobController {
         return new ResponseEntity<>(job, HttpStatus.CREATED);
     }
 
+    //PUT Method that allows you to update an existing job and company that it belongs to
+    @PutMapping("/jobs/{id}")
+    public ResponseEntity<Job> updateJob(@Valid @PathVariable Long id, @RequestBody JobRequest jobDTO){
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
+
+        Company company = companyRepository.findById(jobDTO.getCompanyId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        Company previousCompany = job.getCompany();
+
+        job.setJobTitle(jobDTO.getJobTitle());
+        job.setJobDescription(jobDTO.getJobDescription());
+        job.setSeniorityLevel(jobDTO.getSeniorityLevel());
+        job.setMaxSalary(jobDTO.getMaxSalary());
+        job.setLocation(jobDTO.getLocation());
+        job.setPostingUrl(jobDTO.getPostingUrl());
+        job.setCompany(company);
+
+        //need to delete the previous job from the company provided
+        List<Job> previousCompanyJobs = previousCompany.getJobs();
+
+
+        for (Job j: previousCompanyJobs){
+            if (j.getJobId().equals(job.getJobId())){
+                previousCompanyJobs.remove(j);
+                break;
+            }
+        }
+
+        return new ResponseEntity<Job>(job, HttpStatus.OK);
+    }
 }

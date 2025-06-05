@@ -32,6 +32,8 @@ public class Job {
         this.postingUrl = postingUrl;
     }
 
+    public Long getJobId() { return id; }
+
     public String getJobTitle() {
         return jobTitle;
     }
