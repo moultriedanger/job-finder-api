@@ -1,4 +1,5 @@
 package com.moultriedanger.mljobfinder.job;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import com.moultriedanger.mljobfinder.company.CompanyController;
 import com.moultriedanger.mljobfinder.company.CompanyRepository;
 import com.moultriedanger.mljobfinder.job.dto.JobRequest;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
+import com.mysql.cj.x.protobuf.Mysqlx;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -112,6 +114,27 @@ public class JobController {
         for (Job j: previousCompanyJobs){
             if (j.getJobId().equals(job.getJobId())){
                 previousCompanyJobs.remove(j);
+                break;
+            }
+        }
+
+        return new ResponseEntity<Job>(job, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/jobs/{id}")
+    public ResponseEntity<Job> deleteJobById(@Valid @PathVariable Long id){
+
+        Job job = jobRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        jobRepository.delete(job);
+
+        Company company = job.getCompany();
+
+        List<Job> jobList = company.getJobs();
+
+        for (Job j: jobList){
+            if (j.getJobId().equals(job.getJobId())) {
+                jobList.remove(j);
                 break;
             }
         }
