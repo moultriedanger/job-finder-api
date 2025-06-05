@@ -122,9 +122,17 @@ public class JobController {
     }
 
     @DeleteMapping("/jobs/{id}")
-    public ResponseEntity<Job> deleteJobById(@Valid @PathVariable Long id){
+    public ResponseEntity<JobResponse> deleteJobById(@Valid @PathVariable Long id){
 
         Job job = jobRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        JobResponse jobDTO = new JobResponse();
+        jobDTO.setJobTitle(job.getJobTitle());
+        jobDTO.setJobDescription(job.getJobDescription());
+        jobDTO.setSeniorityLevel(job.getSeniorityLevel());
+        jobDTO.setMaxSalary(job.getMaxSalary());
+        jobDTO.setLocation(job.getLocation());
+        jobDTO.setPostingUrl(job.getPostingUrl());
 
         jobRepository.delete(job);
 
@@ -139,6 +147,6 @@ public class JobController {
             }
         }
 
-        return new ResponseEntity<Job>(job, HttpStatus.OK);
+        return new ResponseEntity<JobResponse>(jobDTO, HttpStatus.OK);
     }
 }
