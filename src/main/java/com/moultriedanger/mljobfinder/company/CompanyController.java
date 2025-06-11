@@ -32,6 +32,7 @@ public class CompanyController {
 
         for (Company c: companiesAndJobs){
             companies.add(new CompanyResponse(
+                    c.getCompanyId(),
                     c.getCompanyName(),
                     c.getCompanyDescription(),
                     c.getCountryLocated(),
@@ -47,7 +48,7 @@ public class CompanyController {
 
         Company c = companyRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
 
-        return new CompanyResponse(c.getCompanyName(), c.getCompanyDescription(), c.getCountryLocated(), c.getCompanyWebsite());
+        return new CompanyResponse(c.getCompanyId(), c.getCompanyName(), c.getCompanyDescription(), c.getCountryLocated(), c.getCompanyWebsite());
     }
 
     @GetMapping("/company-jobs")

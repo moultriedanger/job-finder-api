@@ -85,5 +85,4 @@ public class Job {
     public void setCompany(Company company) {
         this.company = company;
     }
-
 }

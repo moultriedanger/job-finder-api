@@ -2,6 +2,7 @@ package com.moultriedanger.mljobfinder.company.dto;
 
 public class CompanyResponse {
 
+    private Long companyId;
     private String companyName;
     private String companyDescription;
     private String countryLocated;
@@ -9,12 +10,15 @@ public class CompanyResponse {
 
     public CompanyResponse() {}
 
-    public CompanyResponse(String companyName, String companyDescription, String countryLocated, String companyWebsite) {
+    public CompanyResponse(Long id, String companyName, String companyDescription, String countryLocated, String companyWebsite) {
+        this.companyId = id;
         this.companyName = companyName;
         this.companyDescription = companyDescription;
         this.countryLocated = countryLocated;
         this.companyWebsite = companyWebsite;
     }
+
+    public Long getCompanyId(){ return companyId; }
 
     public String getCompanyName() {
         return companyName;
@@ -31,6 +35,8 @@ public class CompanyResponse {
     public String getCountryLocated() {
         return countryLocated;
     }
+
+//    public void setCompanyId(Long companyId){ this.companyId = companyId; }
 
     public void setCompanyWebsite(String companyWebsite) {
         this.companyWebsite = companyWebsite;

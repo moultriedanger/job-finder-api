@@ -39,6 +39,7 @@ public class JobController {
         for (Job j: jRepo) {
 
             JobResponse jobDTO = new JobResponse();
+            jobDTO.setJobId(j.getJobId());
             jobDTO.setJobTitle(j.getJobTitle());
             jobDTO.setJobDescription(j.getJobDescription());
             jobDTO.setSeniorityLevel(j.getSeniorityLevel());
@@ -59,6 +60,8 @@ public class JobController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
 
         JobResponse jobDTO = new JobResponse();
+
+        jobDTO.setJobId(job.getJobId());
         jobDTO.setJobTitle(job.getJobTitle());
         jobDTO.setJobDescription(job.getJobDescription());
         jobDTO.setSeniorityLevel(job.getSeniorityLevel());

@@ -32,6 +32,8 @@ public class Company {
         this.countryLocated = countryLocated;
     }
 
+    public Long getCompanyId() { return id; }
+
     public String getCompanyName() {
         return companyName;
     }

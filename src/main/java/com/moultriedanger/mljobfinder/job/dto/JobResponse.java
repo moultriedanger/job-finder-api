@@ -2,6 +2,7 @@ package com.moultriedanger.mljobfinder.job.dto;
 
 public class JobResponse {
 
+    private Long jobId;
     private String jobTitle;
     private String jobDescription;
     private String seniorityLevel;
@@ -11,8 +12,9 @@ public class JobResponse {
 
     public JobResponse() {}
 
-    public JobResponse(String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl) {
+    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl) {
 
+        this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.seniorityLevel = seniorityLevel;
@@ -24,6 +26,10 @@ public class JobResponse {
     public String getJobTitle() {
         return jobTitle;
     }
+
+    public Long getJobId() { return jobId; }
+
+    public void setJobId(Long jobId) { this.jobId = jobId; }
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
