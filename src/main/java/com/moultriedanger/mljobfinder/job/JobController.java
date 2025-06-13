@@ -47,6 +47,9 @@ public class JobController {
             jobDTO.setLocation(j.getLocation());
             jobDTO.setPostingUrl(j.getPostingUrl());
 
+            String cName = j.getCompany().getCompanyName();
+            jobDTO.setCompanyName(cName);
+
             jobs.add(jobDTO);
         }
 
@@ -68,6 +71,8 @@ public class JobController {
         jobDTO.setMaxSalary(job.getMaxSalary());
         jobDTO.setLocation(job.getLocation());
         jobDTO.setPostingUrl(job.getPostingUrl());
+        jobDTO.setCompanyName(job.getCompany().getCompanyName());
+
 
         return jobDTO;
     }

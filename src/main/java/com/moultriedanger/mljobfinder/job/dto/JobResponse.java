@@ -9,10 +9,11 @@ public class JobResponse {
     private String maxSalary;
     private String location;
     private String postingUrl;
+    private String companyName;
 
     public JobResponse() {}
 
-    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl) {
+    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl, String companyName) {
 
         this.jobId = jobId;
         this.jobTitle = jobTitle;
@@ -21,6 +22,7 @@ public class JobResponse {
         this.maxSalary = maxSalary;
         this.location = location;
         this.postingUrl = postingUrl;
+        this.companyName = companyName;
     }
 
     public String getJobTitle() {
@@ -74,4 +76,8 @@ public class JobResponse {
     public void setPostingUrl(String postingUrl) {
         this.postingUrl = postingUrl;
     }
+
+    public String getCompanyName() { return companyName; }
+
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
 }
