@@ -1,17 +1,14 @@
 package com.moultriedanger.mljobfinder.job;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.moultriedanger.mljobfinder.company.Company;
-import com.moultriedanger.mljobfinder.company.CompanyController;
 import com.moultriedanger.mljobfinder.company.CompanyRepository;
 import com.moultriedanger.mljobfinder.job.dto.JobRequest;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
-import com.mysql.cj.x.protobuf.Mysqlx;
+import com.moultriedanger.mljobfinder.job.mapper.JobResponseMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,11 +19,14 @@ public class JobController {
 
     private JobRepository jobRepository;
     private CompanyRepository companyRepository;
+    private JobResponseMapper jobResponseMapper;
 
-    JobController(JobRepository jobRepository, CompanyRepository companyRepository) {
+    JobController(JobRepository jobRepository, CompanyRepository companyRepository, JobResponseMapper jobResponseMapper) {
 
         this.jobRepository = jobRepository;
         this.companyRepository = companyRepository;
+        this.jobResponseMapper = jobResponseMapper;
+
     }
 
     @GetMapping("/jobs")
@@ -37,20 +37,9 @@ public class JobController {
         List<JobResponse> jobs = new ArrayList<>();
 
         for (Job j: jRepo) {
+            JobResponse jobDto = jobResponseMapper.toResponseDto(j);
 
-            JobResponse jobDTO = new JobResponse();
-            jobDTO.setJobId(j.getJobId());
-            jobDTO.setJobTitle(j.getJobTitle());
-            jobDTO.setJobDescription(j.getJobDescription());
-            jobDTO.setSeniorityLevel(j.getSeniorityLevel());
-            jobDTO.setMaxSalary(j.getMaxSalary());
-            jobDTO.setLocation(j.getLocation());
-            jobDTO.setPostingUrl(j.getPostingUrl());
-
-            String cName = j.getCompany().getCompanyName();
-            jobDTO.setCompanyName(cName);
-
-            jobs.add(jobDTO);
+            jobs.add(jobDto);
         }
 
         return jobs;
@@ -62,17 +51,7 @@ public class JobController {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
 
-        JobResponse jobDTO = new JobResponse();
-
-        jobDTO.setJobId(job.getJobId());
-        jobDTO.setJobTitle(job.getJobTitle());
-        jobDTO.setJobDescription(job.getJobDescription());
-        jobDTO.setSeniorityLevel(job.getSeniorityLevel());
-        jobDTO.setMaxSalary(job.getMaxSalary());
-        jobDTO.setLocation(job.getLocation());
-        jobDTO.setPostingUrl(job.getPostingUrl());
-        jobDTO.setCompanyName(job.getCompany().getCompanyName());
-
+        JobResponse jobDTO = jobResponseMapper.toResponseDto(job);
 
         return jobDTO;
     }
@@ -97,6 +76,7 @@ public class JobController {
     }
 
     //PUT Method that allows you to update an existing job and company that it belongs to
+    //will not work because job constructor changed!
     @PutMapping("/jobs/{id}")
     public ResponseEntity<Job> updateJob(@Valid @PathVariable Long id, @RequestBody JobRequest jobDTO){
 
@@ -135,13 +115,7 @@ public class JobController {
 
         Job job = jobRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
 
-        JobResponse jobDTO = new JobResponse();
-        jobDTO.setJobTitle(job.getJobTitle());
-        jobDTO.setJobDescription(job.getJobDescription());
-        jobDTO.setSeniorityLevel(job.getSeniorityLevel());
-        jobDTO.setMaxSalary(job.getMaxSalary());
-        jobDTO.setLocation(job.getLocation());
-        jobDTO.setPostingUrl(job.getPostingUrl());
+        JobResponse jobDTO = jobResponseMapper.toResponseDto(job);
 
         jobRepository.delete(job);
 
