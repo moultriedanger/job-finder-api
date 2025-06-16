@@ -14,6 +14,8 @@ public class Company {
     @GeneratedValue Long id;
 
     private String companyName;
+
+    @Lob
     private String companyDescription;
     private String countryLocated;
     private String companyWebsite;

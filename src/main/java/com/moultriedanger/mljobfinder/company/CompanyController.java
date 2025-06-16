@@ -3,6 +3,7 @@ package com.moultriedanger.mljobfinder.company;
 import com.moultriedanger.mljobfinder.company.dto.CompanyResponse;
 import com.moultriedanger.mljobfinder.job.Job;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
+import com.moultriedanger.mljobfinder.job.mapper.JobResponseMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,11 @@ import java.util.List;
 public class CompanyController {
 
     private CompanyRepository companyRepository;
+    private JobResponseMapper jobResponseMapper;
 
-    CompanyController(CompanyRepository companyRepository){
+    CompanyController(CompanyRepository companyRepository, JobResponseMapper jobResponseMapper){
         this.companyRepository = companyRepository;
+        this.jobResponseMapper = jobResponseMapper;
     }
 
     @GetMapping("/companies")
@@ -80,16 +83,7 @@ public class CompanyController {
 
         for (Job j: jobs){
 
-            JobResponse job = new JobResponse();
-
-            job.setJobTitle(j.getJobTitle());
-            job.setJobDescription(j.getJobDescription());
-            job.setSeniorityLevel(j.getSeniorityLevel());
-            job.setMaxSalary(j.getMaxSalary());
-            job.setLocation(j.getLocation());
-            job.setPostingUrl(j.getPostingUrl());
-
-            jobResponseList.add(job);
+            jobResponseList.add(jobResponseMapper.toResponseDto(j));
         }
 
         return jobResponseList;

@@ -10,6 +10,8 @@ public class Job {
     @GeneratedValue Long id;
 
     private String jobTitle;
+
+    @Lob
     private String jobDescription;
     private String seniorityLevel;
     private String maxSalary;

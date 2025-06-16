@@ -44,9 +44,9 @@ public class LoadDatabase {
                     String postingUrl = row[6];
 
 //                  messy logic- eventually change to handle nulll descriptions
-                    if (description.length() >= 10) {
-                        description = description.substring(0, 9);
-                    }
+//                    if (description.length() >= 10) {
+//                        description = description.substring(0, 9);
+//                    }
 
                     Job job = new Job(title, description, seniorityLevel, maxSalary, location, postingUrl);
 
@@ -55,10 +55,10 @@ public class LoadDatabase {
                     String countryLocated = row[10];
                     String companyWebsite = row[11];
 
-                    String companyDescription = row[6];
-                    if (companyDescription.length() >= 10){
-                        companyDescription = companyDescription.substring(0,9);
-                    }
+                    String companyDescription = row[9];
+//                    if (companyDescription.length() >= 10){
+//                        companyDescription = companyDescription.substring(0,9);
+//                    }
 
                     Optional<Company> company = companyRepository.findByCompanyName(companyName);
 
