@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.moultriedanger.mljobfinder.company.Company;
 import com.moultriedanger.mljobfinder.company.CompanyRepository;
+import com.moultriedanger.mljobfinder.company.dto.CompanyResponse;
 import com.moultriedanger.mljobfinder.job.dto.JobRequest;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
 import com.moultriedanger.mljobfinder.job.mapper.JobResponseMapper;
@@ -54,6 +55,25 @@ public class JobController {
         JobResponse jobDTO = jobResponseMapper.toResponseDto(job);
 
         return jobDTO;
+    }
+
+    @GetMapping("/jobs/{id}/company")
+    public CompanyResponse getCompanyByJobId(@PathVariable Long id){
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
+
+        Company c = job.getCompany();
+
+        CompanyResponse companyResponse = new CompanyResponse(
+                c.getCompanyId(),
+                c.getCompanyName(),
+                c.getCompanyDescription(),
+                c.getCountryLocated(),
+                c.getCompanyWebsite()
+        );
+
+        return companyResponse;
     }
 
     @PostMapping("/jobs")

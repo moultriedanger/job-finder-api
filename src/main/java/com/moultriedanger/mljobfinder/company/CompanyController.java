@@ -46,6 +46,7 @@ public class CompanyController {
         return companies;
     }
 
+    //Get company by company id
     @GetMapping("/companies/{id}")
     public CompanyResponse getCompanyById(@PathVariable Long id){
 
@@ -67,6 +68,7 @@ public class CompanyController {
         return jobs;
     }
 
+    //Get all jobs associated with a specified company
     @GetMapping("companies/{id}/jobs")
     public List<JobResponse> getJobsByCompanyId(@PathVariable Long id){
 
