@@ -35,6 +35,7 @@ public class LoadDatabase {
                 
                 while ((row = reader.readNext()) != null) {
 
+                    //Job parse logic
                     String title = row[0];
                     String description = row[1];
                     String maxSalary = row[2];
@@ -43,22 +44,13 @@ public class LoadDatabase {
                     String seniorityLevel = row[5];
                     String postingUrl = row[6];
 
-//                  messy logic- eventually change to handle nulll descriptions
-//                    if (description.length() >= 10) {
-//                        description = description.substring(0, 9);
-//                    }
-
                     Job job = new Job(title, description, seniorityLevel, maxSalary, location, postingUrl);
 
                     //company parse logic
                     String companyName = row[8];
+                    String companyDescription = row[9];
                     String countryLocated = row[10];
                     String companyWebsite = row[11];
-
-                    String companyDescription = row[9];
-//                    if (companyDescription.length() >= 10){
-//                        companyDescription = companyDescription.substring(0,9);
-//                    }
 
                     Optional<Company> company = companyRepository.findByCompanyName(companyName);
 

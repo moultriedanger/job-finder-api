@@ -40,17 +40,21 @@ public class JobController {
         return jobResponseMapper.toResponseDtoList(jobList);
     }
 
+    /*
+    Returns job entity given a specified id
+    */
     @GetMapping("/jobs/{id}")
     public JobResponse getJobById(@PathVariable Long id){
 
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
 
-        JobResponse jobDTO = jobResponseMapper.toResponseDto(job);
-
-        return jobDTO;
+        return jobResponseMapper.toResponseDto(job);
     }
 
+    /*
+    Returns a companyResponse for a job given the job id
+    */
     @GetMapping("/jobs/{id}/company")
     public CompanyResponse getCompanyByJobId(@PathVariable Long id){
 
