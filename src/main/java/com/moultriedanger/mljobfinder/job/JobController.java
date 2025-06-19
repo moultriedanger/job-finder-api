@@ -88,15 +88,8 @@ public class JobController {
     */
     @GetMapping("/jobs/search")
     public List<JobResponse> searchJob(@RequestParam String keyword){
-        List<Job> jobs = jobService.searchJobs(keyword);
+        List<JobResponse> jobs = jobService.searchJobs(keyword);
 
-        List<JobResponse> jobResponseList = new ArrayList<>();
-
-        //need a mapper methiod for this
-        for (Job j : jobs){
-            jobResponseList.add(jobResponseMapper.toResponseDto(j));
-        }
-
-        return jobResponseList;
+        return jobs;
     }
 }

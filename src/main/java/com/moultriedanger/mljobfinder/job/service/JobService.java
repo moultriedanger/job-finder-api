@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -123,6 +124,12 @@ public class JobService {
         return new ResponseEntity<Job>(job, HttpStatus.OK);
     }
 
+
+    /**
+     * Updates a job entity in the database given an id and JobRequestDto
+     *
+     * @return ResponseEntity<Job>
+     */
     public ResponseEntity<JobResponse> deleteJobById(Long id){
 
         Job job = jobRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
@@ -145,9 +152,16 @@ public class JobService {
         return new ResponseEntity<JobResponse>(jobDTO, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a list of jobs and maps to them jobResponseDTO
+     *
+     * @return JobResponseDTO List
+     */
+    public List<JobResponse> searchJobs(String keyword){
 
-    public List<Job> searchJobs(String keyword){
-        return jobRepository.searchJobs(keyword);
+        List<Job> jobs = jobRepository.searchJobs(keyword);
+
+        return jobResponseMapper.toResponseDtoList(jobs);
     }
 
 }
