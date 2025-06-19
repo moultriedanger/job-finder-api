@@ -50,11 +50,7 @@ public class JobController {
     */
     @GetMapping("/jobs/{id}")
     public JobResponse getJobById(@PathVariable Long id){
-
-        Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
-
-        return jobResponseMapper.toResponseDto(job);
+        return jobService.getJobById(id);
     }
 
     /*
@@ -62,13 +58,7 @@ public class JobController {
     */
     @GetMapping("/jobs/{id}/company")
     public CompanyResponse getCompanyByJobId(@PathVariable Long id){
-
-        Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
-
-        Company company = job.getCompany();
-
-        return companyResponseMapper.toCompanyResponse(company);
+        return jobService.getCompanyByJobId(id);
     }
 
     /*
@@ -76,14 +66,7 @@ public class JobController {
     */
     @PostMapping("/jobs")
     public ResponseEntity<Job> addJob(@Valid @RequestBody JobRequest jobDTO){
-
-        Company company = companyRepository.findById(jobDTO.getCompanyId())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + jobDTO.getCompanyId()));
-
-        Job job = jobRequestMapper.toJobEntity(jobDTO, company);
-
-        jobRepository.save(job);
-        return new ResponseEntity<>(job, HttpStatus.CREATED);
+        return jobService.addJob(jobDTO);
     }
 
     //PUT Method that allows you to update an existing job and company that it belongs to
