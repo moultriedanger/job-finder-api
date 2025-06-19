@@ -65,37 +65,17 @@ public class JobController {
     Adds a job entity to the database given a JobRequestDto
     */
     @PostMapping("/jobs")
-    public ResponseEntity<Job> addJob(@Valid @RequestBody JobRequest jobDTO){
-        return jobService.addJob(jobDTO);
+    public ResponseEntity<Job> addJob(@Valid @RequestBody JobRequest jobRequestDTO){
+        return jobService.addJob(jobRequestDTO);
     }
 
-    //PUT Method that allows you to update an existing job and company that it belongs to
-    //will not work because job constructor changed!
+
+    /*
+      Updates a job entity in the database given an id and JobRequestDto
+     */
     @PutMapping("/jobs/{id}")
-    public ResponseEntity<Job> updateJob(@Valid @PathVariable Long id, @RequestBody JobRequest jobDTO){
-
-        Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
-
-        Company company = companyRepository.findById(jobDTO.getCompanyId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
-
-        Company previousCompany = job.getCompany();
-
-        //Convert request body to job entity
-        job = jobRequestMapper.toJobEntity(jobDTO, company);
-
-        //Delete the previous job from the company provided
-        List<Job> previousCompanyJobs = previousCompany.getJobs();
-
-        for (Job j: previousCompanyJobs){
-            if (j.getJobId().equals(job.getJobId())){
-                previousCompanyJobs.remove(j);
-                break;
-            }
-        }
-
-        return new ResponseEntity<Job>(job, HttpStatus.OK);
+    public ResponseEntity<Job> updateJob(@Valid @PathVariable Long id, @RequestBody JobRequest jobRequestDTO){
+        return jobService.updateJob(id, jobRequestDTO);
     }
 
     @DeleteMapping("/jobs/{id}")
@@ -123,7 +103,7 @@ public class JobController {
 
     /*
     Returns a list of jobResponses based on the keyword
-     */
+    */
     @GetMapping("/jobs/search")
     public List<JobResponse> searchJob(@RequestParam String keyword){
         List<Job> jobs = jobService.searchJobs(keyword);

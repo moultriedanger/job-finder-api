@@ -80,6 +80,11 @@ public class JobService {
         return companyResponseMapper.toCompanyResponse(company);
     }
 
+    /**
+     * Adds job
+     *
+     * @return ResponseEntity<Job>
+     */
     public ResponseEntity<Job> addJob(JobRequest jobDTO){
 
         Company company = companyRepository.findById(jobDTO.getCompanyId())
@@ -89,6 +94,37 @@ public class JobService {
 
         jobRepository.save(job);
         return new ResponseEntity<>(job, HttpStatus.CREATED);
+    }
+
+    /**
+     * Updates a job entity in the database given an id and JobRequestDto
+     *
+     * @return ResponseEntity<Job>
+     */
+    public ResponseEntity<Job> updateJob(Long id, JobRequest jobDTO){
+
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found with id: " + id));
+
+        Company company = companyRepository.findById(jobDTO.getCompanyId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        Company previousCompany = job.getCompany();
+
+        //Convert request body to job entity
+        job = jobRequestMapper.toJobEntity(jobDTO, company);
+
+        //Delete the previous job from the company provided
+        List<Job> previousCompanyJobs = previousCompany.getJobs();
+
+        for (Job j: previousCompanyJobs){
+            if (j.getJobId().equals(job.getJobId())){
+                previousCompanyJobs.remove(j);
+                break;
+            }
+        }
+
+        return new ResponseEntity<Job>(job, HttpStatus.OK);
     }
 
 
