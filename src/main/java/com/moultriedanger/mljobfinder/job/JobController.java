@@ -30,23 +30,14 @@ public class JobController {
         this.companyRepository = companyRepository;
         this.jobResponseMapper = jobResponseMapper;
         this.jobService = jobService;
-
     }
 
     @GetMapping("/jobs")
     public List<JobResponse> all() {
 
-        List<Job> jRepo = jobRepository.findAll();
+        List<Job> jobList = jobRepository.findAll();
 
-        List<JobResponse> jobs = new ArrayList<>();
-
-        for (Job j: jRepo) {
-            JobResponse jobDto = jobResponseMapper.toResponseDto(j);
-
-            jobs.add(jobDto);
-        }
-
-        return jobs;
+        return jobResponseMapper.toResponseDtoList(jobList);
     }
 
     @GetMapping("/jobs/{id}")
