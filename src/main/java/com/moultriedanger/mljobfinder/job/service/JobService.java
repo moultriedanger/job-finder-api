@@ -22,18 +22,14 @@ import java.util.List;
 public class JobService {
 
     private final JobRepository jobRepository;
-    private final JobRequest jobRequest;
-    private final JobResponse jobResponse;
     private final JobRequestMapper jobRequestMapper;
     private final JobResponseMapper jobResponseMapper;
 
     private final CompanyRepository companyRepository;
     private final CompanyResponseMapper companyResponseMapper;
 
-    public JobService(JobRepository jobRepository, JobRequest jobRequest, JobResponse jobResponse, JobRequestMapper jobRequestMapper, JobResponseMapper jobResponseMapper, CompanyRepository companyRepository, CompanyResponseMapper companyResponseMapper) {
+    public JobService(JobRepository jobRepository, JobRequestMapper jobRequestMapper, JobResponseMapper jobResponseMapper, CompanyRepository companyRepository, CompanyResponseMapper companyResponseMapper) {
         this.jobRepository = jobRepository;
-        this.jobRequest = jobRequest;
-        this.jobResponse = jobResponse;
         this.jobRequestMapper = jobRequestMapper;
         this.jobResponseMapper = jobResponseMapper;
         this.companyRepository = companyRepository;
@@ -125,6 +121,28 @@ public class JobService {
         }
 
         return new ResponseEntity<Job>(job, HttpStatus.OK);
+    }
+
+    public ResponseEntity<JobResponse> deleteJobById(Long id){
+
+        Job job = jobRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
+
+        JobResponse jobDTO = jobResponseMapper.toResponseDto(job);
+
+        jobRepository.delete(job);
+
+        Company company = job.getCompany();
+
+        List<Job> jobList = company.getJobs();
+
+        for (Job j: jobList){
+            if (j.getJobId().equals(job.getJobId())) {
+                jobList.remove(j);
+                break;
+            }
+        }
+
+        return new ResponseEntity<JobResponse>(jobDTO, HttpStatus.OK);
     }
 
 

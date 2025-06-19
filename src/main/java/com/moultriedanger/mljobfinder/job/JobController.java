@@ -80,25 +80,7 @@ public class JobController {
 
     @DeleteMapping("/jobs/{id}")
     public ResponseEntity<JobResponse> deleteJobById(@Valid @PathVariable Long id){
-
-        Job job = jobRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + id));
-
-        JobResponse jobDTO = jobResponseMapper.toResponseDto(job);
-
-        jobRepository.delete(job);
-
-        Company company = job.getCompany();
-
-        List<Job> jobList = company.getJobs();
-
-        for (Job j: jobList){
-            if (j.getJobId().equals(job.getJobId())) {
-                jobList.remove(j);
-                break;
-            }
-        }
-
-        return new ResponseEntity<JobResponse>(jobDTO, HttpStatus.OK);
+        return jobService.deleteJobById(id);
     }
 
     /*
