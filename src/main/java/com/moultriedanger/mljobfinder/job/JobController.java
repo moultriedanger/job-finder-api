@@ -8,6 +8,7 @@ import com.moultriedanger.mljobfinder.company.dto.CompanyResponse;
 import com.moultriedanger.mljobfinder.company.mapper.CompanyResponseMapper;
 import com.moultriedanger.mljobfinder.job.dto.JobRequest;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
+import com.moultriedanger.mljobfinder.job.mapper.JobRequestMapper;
 import com.moultriedanger.mljobfinder.job.mapper.JobResponseMapper;
 import com.moultriedanger.mljobfinder.job.service.JobService;
 import jakarta.validation.Valid;
@@ -23,15 +24,17 @@ public class JobController {
     private JobRepository jobRepository;
     private CompanyRepository companyRepository;
     private JobResponseMapper jobResponseMapper;
+    private JobRequestMapper jobRequestMapper;
     private JobService jobService;
     private CompanyResponseMapper companyResponseMapper;
 
-    public JobController(JobRepository jobRepository, CompanyRepository companyRepository, JobResponseMapper jobResponseMapper, JobService jobService, CompanyResponseMapper companyResponseMapper) {
+    public JobController(JobRepository jobRepository, CompanyRepository companyRepository, JobResponseMapper jobResponseMapper, JobService jobService, CompanyResponseMapper companyResponseMapper, JobRequestMapper jobRequestMapper) {
         this.jobRepository = jobRepository;
         this.companyRepository = companyRepository;
         this.jobResponseMapper = jobResponseMapper;
         this.jobService = jobService;
         this.companyResponseMapper = companyResponseMapper;
+        this.jobRequestMapper = jobRequestMapper;
     }
 
     /*
@@ -71,20 +74,16 @@ public class JobController {
         return companyResponseMapper.toCompanyResponse(company);
     }
 
+    /*
+    Adds a job entity to the database given a JobRequestDto
+    */
     @PostMapping("/jobs")
     public ResponseEntity<Job> addJob(@Valid @RequestBody JobRequest jobDTO){
 
         Company company = companyRepository.findById(jobDTO.getCompanyId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found with id: " + jobDTO.getCompanyId()));
 
-        Job job = new Job();
-        job.setJobTitle(jobDTO.getJobTitle());
-        job.setJobDescription(jobDTO.getJobDescription());
-        job.setSeniorityLevel(jobDTO.getSeniorityLevel());
-        job.setMaxSalary(jobDTO.getMaxSalary());
-        job.setLocation(jobDTO.getLocation());
-        job.setPostingUrl(jobDTO.getPostingUrl());
-        job.setCompany(company);
+        Job job = jobRequestMapper.toJobEntity(jobDTO, company);
 
         jobRepository.save(job);
         return new ResponseEntity<>(job, HttpStatus.CREATED);

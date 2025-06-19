@@ -1,5 +1,7 @@
 package com.moultriedanger.mljobfinder.job.dto;
 
+import com.moultriedanger.mljobfinder.company.Company;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
