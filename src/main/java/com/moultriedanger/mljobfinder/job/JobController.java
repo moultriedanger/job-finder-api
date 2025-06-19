@@ -42,10 +42,7 @@ public class JobController {
     */
     @GetMapping("/jobs")
     public List<JobResponse> all() {
-
-        List<Job> jobList = jobRepository.findAll();
-
-        return jobResponseMapper.toResponseDtoList(jobList);
+        return jobService.listAllJobs();
     }
 
     /*
@@ -102,17 +99,11 @@ public class JobController {
 
         Company previousCompany = job.getCompany();
 
-        job.setJobTitle(jobDTO.getJobTitle());
-        job.setJobDescription(jobDTO.getJobDescription());
-        job.setSeniorityLevel(jobDTO.getSeniorityLevel());
-        job.setMaxSalary(jobDTO.getMaxSalary());
-        job.setLocation(jobDTO.getLocation());
-        job.setPostingUrl(jobDTO.getPostingUrl());
-        job.setCompany(company);
+        //Convert request body to job entity
+        job = jobRequestMapper.toJobEntity(jobDTO, company);
 
-        //need to delete the previous job from the company provided
+        //Delete the previous job from the company provided
         List<Job> previousCompanyJobs = previousCompany.getJobs();
-
 
         for (Job j: previousCompanyJobs){
             if (j.getJobId().equals(job.getJobId())){
@@ -147,7 +138,9 @@ public class JobController {
         return new ResponseEntity<JobResponse>(jobDTO, HttpStatus.OK);
     }
 
-//    search endpoint
+    /*
+    Returns a list of jobResponses based on the keyword
+     */
     @GetMapping("/jobs/search")
     public List<JobResponse> searchJob(@RequestParam String keyword){
         List<Job> jobs = jobService.searchJobs(keyword);
