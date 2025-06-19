@@ -11,7 +11,7 @@ public class Job {
 
     private String jobTitle;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String jobDescription;
     private String seniorityLevel;
     private String maxSalary;

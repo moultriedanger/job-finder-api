@@ -8,6 +8,7 @@ import com.moultriedanger.mljobfinder.company.dto.CompanyResponse;
 import com.moultriedanger.mljobfinder.job.dto.JobRequest;
 import com.moultriedanger.mljobfinder.job.dto.JobResponse;
 import com.moultriedanger.mljobfinder.job.mapper.JobResponseMapper;
+import com.moultriedanger.mljobfinder.job.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,14 @@ public class JobController {
     private JobRepository jobRepository;
     private CompanyRepository companyRepository;
     private JobResponseMapper jobResponseMapper;
+    private JobService jobService;
 
-    JobController(JobRepository jobRepository, CompanyRepository companyRepository, JobResponseMapper jobResponseMapper) {
+    JobController(JobRepository jobRepository, CompanyRepository companyRepository, JobResponseMapper jobResponseMapper, JobService jobService) {
 
         this.jobRepository = jobRepository;
         this.companyRepository = companyRepository;
         this.jobResponseMapper = jobResponseMapper;
+        this.jobService = jobService;
 
     }
 
@@ -151,5 +154,20 @@ public class JobController {
         }
 
         return new ResponseEntity<JobResponse>(jobDTO, HttpStatus.OK);
+    }
+
+//    search endpoint
+    @GetMapping("/jobs/search")
+    public List<JobResponse> searchJob(@RequestParam String keyword){
+        List<Job> jobs = jobService.searchJobs(keyword);
+
+        List<JobResponse> jobResponseList = new ArrayList<>();
+
+        //need a mapper methiod for this
+        for (Job j : jobs){
+            jobResponseList.add(jobResponseMapper.toResponseDto(j));
+        }
+
+        return jobResponseList;
     }
 }

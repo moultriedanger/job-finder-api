@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobResponseMapper {
 
-
     public JobResponse toResponseDto(Job job){
 
         JobResponse jobDTO = new JobResponse();
