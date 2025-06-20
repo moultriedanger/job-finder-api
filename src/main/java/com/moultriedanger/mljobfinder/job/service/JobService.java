@@ -163,5 +163,4 @@ public class JobService {
 
         return jobResponseMapper.toResponseDtoList(jobs);
     }
-
 }

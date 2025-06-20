@@ -41,7 +41,7 @@ public class JobController {
     Returns all job entities
     */
     @GetMapping("/jobs")
-    public List<JobResponse> all() {
+    public List<JobResponse> getAll() {
         return jobService.listAllJobs();
     }
 

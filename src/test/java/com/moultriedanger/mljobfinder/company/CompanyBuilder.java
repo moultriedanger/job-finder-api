@@ -1,28 +1,28 @@
 package com.moultriedanger.mljobfinder.company;
 
-public class companyBuilder {
+public class CompanyBuilder {
 
     private String companyName = "Default name";
     private String companyDescription = "This company has a cool description";
     private String countryLocated = "USA";
     private String companyWebsite = "http://google.com";
 
-    public companyBuilder withCompanyName(String companyName){
+    public CompanyBuilder withCompanyName(String companyName){
         this.companyName = companyName;
         return this;
     }
 
-    public companyBuilder withCompanyDescription(String companyDescription){
+    public CompanyBuilder withCompanyDescription(String companyDescription){
         this.companyDescription = companyDescription;
         return this;
     }
 
-    public companyBuilder countryLocated(String countryLocated){
+    public CompanyBuilder countryLocated(String countryLocated){
         this.countryLocated = countryLocated;
         return this;
     }
 
-    public companyBuilder companyWebsite(String companyWebsite){
+    public CompanyBuilder companyWebsite(String companyWebsite){
         this.companyWebsite = companyWebsite;
         return this;
     }
