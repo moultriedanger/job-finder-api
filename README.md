@@ -4,11 +4,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/moultriedangerfield/ml-jobfinder-backend">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">ML JobFinder</h3>
+  <h3 align="center"> Job Wizard</h3>
 
   <p align="center">
     A full-stack job board built with Spring Boot and React. RESTful backend API with MySQL, clean architecture, and frontend filtering.
@@ -23,9 +19,8 @@
   </p>
 </div>
 
----
-
-## 📚 Table of Contents
+<details>
+  <summary><strong>Table of Contents</strong></summary>
 
 - [About The Project](#about-the-project)
   - [Built With](#built-with)
@@ -39,11 +34,12 @@
 - [Contact](#contact)
 - [Acknowledgments](#acknowledgments)
 
+</details>
+
+
 ---
 
 ## 🧠 About The Project
-
-[![Screenshot][product-screenshot]](images/screenshot.png)
 
 ML JobFinder is a full-stack job board app that allows users to browse job listings and view company information. The backend is built using Spring Boot and MySQL, while the frontend is built using React.
 
