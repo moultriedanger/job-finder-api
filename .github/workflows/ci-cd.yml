@@ -1,24 +1,18 @@
-# .github/workflows/ci.yml
-name: Build & Test
+name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Build & run tests
-        run: mvn clean verify
+      - run: mvn clean verify
