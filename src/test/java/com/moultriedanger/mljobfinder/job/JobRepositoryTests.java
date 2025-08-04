@@ -27,18 +27,12 @@ public class JobRepositoryTests {
     private CompanyRepository companyRepository;
 
     @Test
-    void testFindById(){
+    void JobRepository_FindById_ReturnsOneJobById(){
         //Arrange
-        Company company = new CompanyBuilder()
-                .withCompanyName("Microsoft")
-                .build();
-
+        Company company = new CompanyBuilder().withCompanyName("Microsoft").build();
         companyRepository.save(company);
 
-        Job job = new JobBuilder()
-                .withJobTitle("Data Engineer")
-                .withCompany(company)
-                .build();
+        Job job = new JobBuilder().withJobTitle("Data Engineer").withCompany(company).build();
 
         jobRepository.save(job);
 
@@ -68,8 +62,8 @@ public class JobRepositoryTests {
 
         assertThat(jobs)
                 .hasSize(2)
+                .isNotNull()
                 .extracting(Job::getJobTitle)
                 .containsExactlyInAnyOrder("Data Engineer", "System Admin");
     }
-
 }

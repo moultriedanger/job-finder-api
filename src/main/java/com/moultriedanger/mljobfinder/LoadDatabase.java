@@ -4,6 +4,7 @@ import com.moultriedanger.mljobfinder.company.Company;
 import com.moultriedanger.mljobfinder.company.CompanyRepository;
 import com.moultriedanger.mljobfinder.job.Job;
 import com.moultriedanger.mljobfinder.job.JobRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +21,7 @@ import com.opencsv.CSVReader;
 public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+    @Transactional
     @Bean
     CommandLineRunner initJobs(JobRepository jobRepository, CompanyRepository companyRepository) {
         return args -> {
