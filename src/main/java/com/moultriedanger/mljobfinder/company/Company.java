@@ -10,8 +10,9 @@ import java.util.List;
 @Entity
 public class Company {
 
-    private @Id
-    @GeneratedValue Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String companyName;
 

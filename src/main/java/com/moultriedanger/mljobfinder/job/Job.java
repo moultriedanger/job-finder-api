@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 @Entity
 public class Job {
 
-    private @Id
-    @GeneratedValue Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String jobTitle;
 
