@@ -39,3 +39,5 @@ src/main/resources/application-docker.properties
 src/main/resources/application-prod.properties
 
 src/test/resources/application.properties
+
+/.env

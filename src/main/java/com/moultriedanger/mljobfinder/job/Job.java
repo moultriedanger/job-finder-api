@@ -4,19 +4,29 @@ import com.moultriedanger.mljobfinder.company.Company;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "jobs")
 public class Job {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String jobTitle;
 
     @Column(columnDefinition = "TEXT")
     private String jobDescription;
+
+    @Column(length = 100)
     private String seniorityLevel;
-    private String maxSalary;
+
+    @Column
+    private Long maxSalary;
+
+    @Column(length = 100)
     private String location;
+
+    @Column(length = 512)
     private String postingUrl;
 
     @ManyToOne(optional = false)
@@ -25,7 +35,7 @@ public class Job {
 
     public Job(){}
 
-    public Job(String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl) {
+    public Job(String jobTitle, String jobDescription, String seniorityLevel, Long maxSalary, String location, String postingUrl) {
         System.out.println("Constructor values -> " + jobTitle + ", " + maxSalary + ", " + location + ", " + postingUrl);
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
@@ -49,7 +59,7 @@ public class Job {
         return seniorityLevel;
     }
 
-    public String getMaxSalary() {
+    public Long getMaxSalary() {
         return maxSalary;
     }
 
@@ -73,7 +83,7 @@ public class Job {
         this.jobDescription = jobDescription;
     }
 
-    public void setMaxSalary(String maxSalary) {
+    public void setMaxSalary(Long maxSalary) {
         this.maxSalary = maxSalary;
     }
 
