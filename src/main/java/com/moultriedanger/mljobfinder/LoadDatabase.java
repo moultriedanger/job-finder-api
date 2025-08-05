@@ -15,9 +15,11 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import com.opencsv.CSVReader;
+import org.springframework.context.annotation.Profile;
 
 
 @Configuration
+@Profile("!test")
 public class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
