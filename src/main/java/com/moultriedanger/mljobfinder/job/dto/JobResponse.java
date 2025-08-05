@@ -6,14 +6,14 @@ public class JobResponse {
     private String jobTitle;
     private String jobDescription;
     private String seniorityLevel;
-    private String maxSalary;
+    private Long maxSalary;
     private String location;
     private String postingUrl;
     private String companyName;
 
     public JobResponse() {}
 
-    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl, String companyName) {
+    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, Long maxSalary, String location, String postingUrl, String companyName) {
 
         this.jobId = jobId;
         this.jobTitle = jobTitle;
@@ -53,11 +53,11 @@ public class JobResponse {
         this.seniorityLevel = seniorityLevel;
     }
 
-    public String getMaxSalary() {
+    public Long getMaxSalary() {
         return maxSalary;
     }
 
-    public void setMaxSalary(String maxSalary) {
+    public void setMaxSalary(Long maxSalary) {
         this.maxSalary = maxSalary;
     }
 

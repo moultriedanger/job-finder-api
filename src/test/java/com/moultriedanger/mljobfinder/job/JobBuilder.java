@@ -6,7 +6,7 @@ public class JobBuilder {
     private String jobTitle = "Default Job Title";
     private String jobDescription = "Default Description";
     private String seniorityLevel = "Entry";
-    private String maxSalary = "50000";
+    private Long maxSalary = 50000L;
     private String location = "Remote";
     private String postingUrl = "https://example.com";
     private Company company;
@@ -26,7 +26,7 @@ public class JobBuilder {
         return this;
     }
 
-    public JobBuilder withMaxSalary(String maxSalary) {
+    public JobBuilder withMaxSalary(Long maxSalary) {
         this.maxSalary = maxSalary;
         return this;
     }

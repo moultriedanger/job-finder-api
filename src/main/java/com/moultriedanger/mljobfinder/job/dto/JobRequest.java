@@ -18,7 +18,7 @@ public class JobRequest {
     private String seniorityLevel;
 
     @NotBlank(message = "Job salary is required")
-    private String maxSalary;
+    private Long maxSalary;
 
     @NotBlank(message = "Job location is required")
     private String location;
@@ -31,7 +31,7 @@ public class JobRequest {
 
     public JobRequest() {}
 
-    public JobRequest(String jobTitle, String jobDescription, String seniorityLevel, String maxSalary, String location, String postingUrl, Long companyId) {
+    public JobRequest(String jobTitle, String jobDescription, String seniorityLevel, Long maxSalary, String location, String postingUrl, Long companyId) {
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.seniorityLevel = seniorityLevel;
@@ -53,7 +53,7 @@ public class JobRequest {
         return seniorityLevel;
     }
 
-    public String getMaxSalary() {
+    public Long getMaxSalary() {
         return maxSalary;
     }
 
@@ -79,7 +79,7 @@ public class JobRequest {
         this.seniorityLevel = seniorityLevel;
     }
 
-    public void setMaxSalary(String maxSalary) {
+    public void setMaxSalary(Long maxSalary) {
         this.maxSalary = maxSalary;
     }
 
