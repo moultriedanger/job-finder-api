@@ -42,7 +42,7 @@ public class LoadDatabase {
                     //Job parse logic
                     String title = row[0];
                     String description = row[1];
-                    String maxSalary = row[2];
+                    Long maxSalary = Long.valueOf(row[2]);
                     String payPeriod = row[3];
                     String location = row[4];
                     String seniorityLevel = row[5];

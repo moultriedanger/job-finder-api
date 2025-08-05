@@ -11,22 +11,22 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "job_title", nullable = false, length = 100)
     private String jobTitle;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "job_description", columnDefinition = "TEXT")
     private String jobDescription;
 
-    @Column(length = 100)
+    @Column(name = "seniority_level", length = 100)
     private String seniorityLevel;
 
-    @Column
+    @Column(name = "max_salary")
     private Long maxSalary;
 
-    @Column(length = 100)
+    @Column(name = "location", length = 100)
     private String location;
 
-    @Column(length = 512)
+    @Column(name = "posting_url", length = 512)
     private String postingUrl;
 
     @ManyToOne(optional = false)
