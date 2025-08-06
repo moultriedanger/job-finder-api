@@ -13,7 +13,7 @@ CREATE TABLE company (
 );
 
 -- Job table
-CREATE TABLE job (
+CREATE TABLE jobs (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   job_title VARCHAR(255) NOT NULL,
   job_description TEXT,
