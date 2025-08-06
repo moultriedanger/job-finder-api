@@ -29,10 +29,10 @@ public class LoadDatabase {
     CommandLineRunner initJobs(JobRepository jobRepository, CompanyRepository companyRepository) {
         return args -> {
 
-            if (companyRepository.count() > 0) {
-                System.out.println("Database already populated. Skipping seed data.");
-                return;
-            }
+//            if (companyRepository.count() > 0) {
+//                System.out.println("Database already populated. Skipping seed data.");
+//                return;
+//            }
 
             try (CSVReader reader = new CSVReader(new FileReader("/Users/moultriedangerfield/Desktop/mljobfinder/src/main/resources/data/jobs_and_companies.csv"))) {
                 String[] row;

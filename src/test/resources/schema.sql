@@ -4,9 +4,9 @@ DROP TABLE IF EXISTS job;
 DROP TABLE IF EXISTS company;
 
 -- Company table
-CREATE TABLE company (
+CREATE TABLE companies (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  company_name VARCHAR(255),
+  company_name VARCHAR(255) NOT NULL,
   company_description TEXT,
   company_website VARCHAR(255),
   country_located VARCHAR(255)
@@ -22,5 +22,5 @@ CREATE TABLE jobs (
   location VARCHAR(255),
   posting_url VARCHAR(512),
   company_id BIGINT NOT NULL,
-  CONSTRAINT fk_job_company FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE CASCADE
+  CONSTRAINT fk_job_company FOREIGN KEY (company_id) REFERENCES companies (id) ON DELETE CASCADE
 );

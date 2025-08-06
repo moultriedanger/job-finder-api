@@ -8,23 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "company")
+@Table(name = "companies")
 public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "company_name", nullable = false)
     private String companyName;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "company_description", columnDefinition = "TEXT")
     private String companyDescription;
+
+    @Column(name = "country_located")
     private String countryLocated;
+
+    @Column(name = "company_website")
     private String companyWebsite;
 
-
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-//    @JsonIgnore
     private List<Job> jobs = new ArrayList<>();
 
     public Company(){}
