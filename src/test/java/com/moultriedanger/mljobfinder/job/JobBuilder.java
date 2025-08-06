@@ -2,11 +2,13 @@ package com.moultriedanger.mljobfinder.job;
 
 import com.moultriedanger.mljobfinder.company.Company;
 
+import java.math.BigDecimal;
+
 public class JobBuilder {
     private String jobTitle = "Default Job Title";
     private String jobDescription = "Default Description";
     private String seniorityLevel = "Entry";
-    private Long maxSalary = 50000L;
+    private BigDecimal maxSalary = BigDecimal.valueOf(50000.0);
     private String location = "Remote";
     private String postingUrl = "https://example.com";
     private Company company;
@@ -26,7 +28,7 @@ public class JobBuilder {
         return this;
     }
 
-    public JobBuilder withMaxSalary(Long maxSalary) {
+    public JobBuilder withMaxSalary(BigDecimal maxSalary) {
         this.maxSalary = maxSalary;
         return this;
     }

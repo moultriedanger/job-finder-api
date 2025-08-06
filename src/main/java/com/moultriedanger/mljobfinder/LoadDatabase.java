@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class LoadDatabase {
                     //Job parse logic
                     String title = row[0];
                     String description = row[1];
-                    Long maxSalary = Long.valueOf(row[2]);
+                    BigDecimal maxSalary = new BigDecimal(row[2]);
                     String payPeriod = row[3];
                     String location = row[4];
                     String seniorityLevel = row[5];

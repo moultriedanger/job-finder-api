@@ -1,19 +1,21 @@
 package com.moultriedanger.mljobfinder.job.dto;
 
+import java.math.BigDecimal;
+
 public class JobResponse {
 
     private Long jobId;
     private String jobTitle;
     private String jobDescription;
     private String seniorityLevel;
-    private Long maxSalary;
+    private BigDecimal maxSalary;
     private String location;
     private String postingUrl;
     private String companyName;
 
     public JobResponse() {}
 
-    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, Long maxSalary, String location, String postingUrl, String companyName) {
+    public JobResponse(Long jobId,String jobTitle, String jobDescription, String seniorityLevel, BigDecimal maxSalary, String location, String postingUrl, String companyName) {
 
         this.jobId = jobId;
         this.jobTitle = jobTitle;
@@ -53,11 +55,11 @@ public class JobResponse {
         this.seniorityLevel = seniorityLevel;
     }
 
-    public Long getMaxSalary() {
+    public BigDecimal getMaxSalary() {
         return maxSalary;
     }
 
-    public void setMaxSalary(Long maxSalary) {
+    public void setMaxSalary(BigDecimal maxSalary) {
         this.maxSalary = maxSalary;
     }
 

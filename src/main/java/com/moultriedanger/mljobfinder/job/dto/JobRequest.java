@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
+
 
 public class JobRequest {
 
@@ -18,7 +20,7 @@ public class JobRequest {
     private String seniorityLevel;
 
     @NotBlank(message = "Job salary is required")
-    private Long maxSalary;
+    private BigDecimal maxSalary;
 
     @NotBlank(message = "Job location is required")
     private String location;
@@ -31,7 +33,7 @@ public class JobRequest {
 
     public JobRequest() {}
 
-    public JobRequest(String jobTitle, String jobDescription, String seniorityLevel, Long maxSalary, String location, String postingUrl, Long companyId) {
+    public JobRequest(String jobTitle, String jobDescription, String seniorityLevel, BigDecimal maxSalary, String location, String postingUrl, Long companyId) {
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
         this.seniorityLevel = seniorityLevel;
@@ -53,7 +55,7 @@ public class JobRequest {
         return seniorityLevel;
     }
 
-    public Long getMaxSalary() {
+    public BigDecimal getMaxSalary() {
         return maxSalary;
     }
 
@@ -79,7 +81,7 @@ public class JobRequest {
         this.seniorityLevel = seniorityLevel;
     }
 
-    public void setMaxSalary(Long maxSalary) {
+    public void setMaxSalary(BigDecimal maxSalary) {
         this.maxSalary = maxSalary;
     }
 

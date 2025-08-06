@@ -3,6 +3,8 @@ package com.moultriedanger.mljobfinder.job;
 import com.moultriedanger.mljobfinder.company.Company;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "jobs")
 public class Job {
@@ -11,19 +13,19 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "job_title", nullable = false, length = 100)
+    @Column(name = "job_title", nullable = false, length = 225)
     private String jobTitle;
 
     @Column(name = "job_description", columnDefinition = "TEXT")
     private String jobDescription;
 
-    @Column(name = "seniority_level", length = 100)
+    @Column(name = "seniority_level", length = 225)
     private String seniorityLevel;
 
     @Column(name = "max_salary")
-    private Long maxSalary;
+    private BigDecimal maxSalary;
 
-    @Column(name = "location", length = 100)
+    @Column(name = "location", length = 225)
     private String location;
 
     @Column(name = "posting_url", length = 512)
@@ -35,7 +37,7 @@ public class Job {
 
     public Job(){}
 
-    public Job(String jobTitle, String jobDescription, String seniorityLevel, Long maxSalary, String location, String postingUrl) {
+    public Job(String jobTitle, String jobDescription, String seniorityLevel, BigDecimal maxSalary, String location, String postingUrl) {
         System.out.println("Constructor values -> " + jobTitle + ", " + maxSalary + ", " + location + ", " + postingUrl);
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
@@ -59,7 +61,7 @@ public class Job {
         return seniorityLevel;
     }
 
-    public Long getMaxSalary() {
+    public BigDecimal getMaxSalary() {
         return maxSalary;
     }
 
@@ -83,7 +85,7 @@ public class Job {
         this.jobDescription = jobDescription;
     }
 
-    public void setMaxSalary(Long maxSalary) {
+    public void setMaxSalary(BigDecimal maxSalary) {
         this.maxSalary = maxSalary;
     }
 

@@ -17,7 +17,7 @@ public class Company {
 
     private String companyName;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String companyDescription;
     private String countryLocated;
     private String companyWebsite;
