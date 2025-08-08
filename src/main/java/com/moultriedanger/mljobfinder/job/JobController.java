@@ -42,7 +42,7 @@ public class JobController {
     */
     @GetMapping("/jobs")
     public List<JobResponse> getAll() {
-        return jobService.listAllJobs();
+        return jobRepository.findAllJobResponses();
     }
 
     /*

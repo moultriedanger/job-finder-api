@@ -28,23 +28,9 @@ public class CompanyController {
 
     @GetMapping("/companies")
     public List<CompanyResponse> listAllCompanies(){
-
-        List<Company> companiesAndJobs = companyRepository.findAll();
-
-        List<CompanyResponse> companies = new ArrayList<>();
-
-        for (Company c: companiesAndJobs){
-            companies.add(new CompanyResponse(
-                    c.getCompanyId(),
-                    c.getCompanyName(),
-                    c.getCompanyDescription(),
-                    c.getCountryLocated(),
-                    c.getCompanyWebsite()
-            ));
-        }
-
-        return companies;
+        return companyRepository.findAllCompanySummaries();
     }
+
 
     //Get company by company id
     @GetMapping("/companies/{id}")
