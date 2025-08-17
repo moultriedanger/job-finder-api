@@ -71,7 +71,7 @@ public class LoadDatabase {
 
                         companyRepository.save(newCompany);
                     }
-                    System.out.println("Company count: " + companyRepository.findAll().size());
+//                    System.out.println("Company count: " + companyRepository.findAll().size());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

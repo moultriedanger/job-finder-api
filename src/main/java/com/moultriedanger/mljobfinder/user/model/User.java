@@ -1,4 +1,4 @@
-package com.moultriedanger.mljobfinder.user;
+package com.moultriedanger.mljobfinder.user.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -66,4 +66,11 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    @Override
+    public String getUsername() {
+        return email; // not the username field
+    }
+
 }
+

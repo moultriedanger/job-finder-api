@@ -1,6 +1,6 @@
-package com.moultriedanger.mljobfinder.user;
+package com.moultriedanger.mljobfinder.user.repository;
 
-import com.moultriedanger.mljobfinder.user.User;
+import com.moultriedanger.mljobfinder.user.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.moultriedanger.mljobfinder.user.config;
 
-import com.moultriedanger.mljobfinder.user.UserRepository;
+import com.moultriedanger.mljobfinder.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

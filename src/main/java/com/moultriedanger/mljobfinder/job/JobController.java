@@ -12,6 +12,7 @@ import com.moultriedanger.mljobfinder.job.mapper.JobRequestMapper;
 import com.moultriedanger.mljobfinder.job.mapper.JobResponseMapper;
 import com.moultriedanger.mljobfinder.job.service.JobService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
