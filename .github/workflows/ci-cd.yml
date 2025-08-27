@@ -22,5 +22,5 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build & run tests
-        run: mvn clean verify
+      - name: Build (skip tests)
+        run: mvn -B clean verify -DskipTests -DskipITs

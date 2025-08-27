@@ -1,6 +1,9 @@
 package com.moultriedanger.mljobfinder.user.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.moultriedanger.mljobfinder.profile.model.Profile;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +34,11 @@ public class User implements UserDetails {
     @Column(name = "verification_expiration")
     private LocalDateTime verificationCodeExpiresAt;
     private boolean enabled;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Setter(AccessLevel.NONE)
+    @JsonManagedReference
+    private Profile profile;
 
     //constructor for creating an unverified user
     public User(String username, String email, String password) {
@@ -70,6 +78,13 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email; // not the username field
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+        if (profile != null) {
+            profile.setUser(this);
+        }
     }
 
 }

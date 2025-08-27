@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.moultriedanger.mljobfinder.profile.model.Profile;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -40,6 +41,11 @@ public class AuthenticationService {
         user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
         user.setEnabled(false);
         sendVerificationEmail(user);
+
+        //create default profile
+        Profile profile = new Profile("", "", "default-avatar.png");
+        user.setProfile(profile);
+
         return userRepository.save(user);
     }
 
